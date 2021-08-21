@@ -25,3 +25,32 @@ class Stage {
         this.context.fillRect(0, 0, w, h)
     }
 }
+
+class Point {
+
+    constructor(public r : number, public angle : number) {
+
+    }
+}
+
+class Shape {
+
+    constructor(public points : Array<Point>) {
+
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        context.beginPath()
+        this.points.forEach((point, index) => {
+            const {r, angle} = point 
+            const x : number = r * Math.cos(angle * Math.PI / 180)
+            const y : number = r * Math.sin(angle * Math.PI / 180)
+            if (index == 0) {
+                context.moveTo(x, y)
+            } else {
+                context.lineTo(x, y)
+            }
+        })
+        context.fill()
+    }
+}
