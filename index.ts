@@ -54,3 +54,13 @@ class Shape {
         context.fill()
     }
 }
+
+const transformDataToPoints = (data1 : Record<string, number> , data2 : Record<string, number>) => {
+    const transformedData1 = {}, transformedData2 = {}
+    Object.keys(data1).forEach((key) => {
+        const max : number =  Math.max(data1[key], data2[key])
+        transformedData1[key] = data1[key] / max 
+        transformedData2[key] = data2[key] / max 
+    })
+    return [transformedData1, transformedData2]
+}
