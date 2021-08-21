@@ -55,12 +55,31 @@ class Shape {
     }
 }
 
-const transformDataToPoints = (data1 : Record<string, number> , data2 : Record<string, number>) => {
+const transformDataToPoints = (r : number, data1 : Record<string, number> , data2 : Record<string, number>) => {
     const transformedData1 = {}, transformedData2 = {}
-    Object.keys(data1).forEach((key) => {
+    const points1 : Array<Point> = []
+    const points2 : Array<Point> = []
+    const deg = 360 / Object.keys(data1).length
+    Object.keys(data1).forEach((key : string, i : number) => {
         const max : number =  Math.max(data1[key], data2[key])
-        transformedData1[key] = data1[key] / max 
-        transformedData2[key] = data2[key] / max 
+        const r1 = r * data1[key] / max 
+        const angle = deg * i
+        const r2  = r *  data2[key] / max 
+        points1.push(new Point(r1, angle))
+        points2.push(new Point(r2, angle))
     })
-    return [transformedData1, transformedData2]
+    return [points1, points2]
+}
+
+class StatWheel {
+    shape : Shape 
+    constructor(private points : Array<Point>, private opacity : number, private color : string) {
+        this.shape = new Shape(points) 
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        context.fillStyle = this.color 
+        context.globalAlpha = this.opacity
+        this.shape.draw(context)
+    }
 }
