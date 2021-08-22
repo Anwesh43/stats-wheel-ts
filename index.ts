@@ -24,6 +24,7 @@ class Stage {
         this.context.fillStyle = backColor 
         this.context.fillRect(0, 0, w, h)
     }
+
 }
 
 class Point {
@@ -56,7 +57,6 @@ class Shape {
 }
 
 const transformDataToPoints = (r : number, data1 : Record<string, number> , data2 : Record<string, number>) => {
-    const transformedData1 = {}, transformedData2 = {}
     const points1 : Array<Point> = []
     const points2 : Array<Point> = []
     const deg = 360 / Object.keys(data1).length
@@ -74,12 +74,31 @@ const transformDataToPoints = (r : number, data1 : Record<string, number> , data
 class StatWheel {
     shape : Shape 
     constructor(private points : Array<Point>, private opacity : number, private color : string) {
-        this.shape = new Shape(points) 
+        this.shape = new Shape(this.points) 
     }
 
     draw(context : CanvasRenderingContext2D) {
         context.fillStyle = this.color 
         context.globalAlpha = this.opacity
         this.shape.draw(context)
+    }
+}
+
+class StatsWheelRenderer {
+
+    stats1 : StatWheel
+    stats2 : StatWheel 
+
+
+    constructor(data1 : Record<string, number>, data2 : Record<string, number>) {
+
+        const [points1, points2] = transformDataToPoints(Math.min(w, h) / rFactor, data1, data2)
+        this.stats1 = new StatWheel(points1, opacity1, color1)
+        this.stats2 = new StatWheel(points2, opacity2, color2)
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        this.stats1.draw(context)
+        this.stats2.draw(context)
     }
 }
