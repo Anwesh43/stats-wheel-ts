@@ -1,6 +1,6 @@
 const w : number = window.innerWidth
 const h : number = window.innerHeight 
-const rFactor : number = 4.5
+const rFactor : number = 2.5
 const delay : number = 20 
 const color1 : string = "green"
 const color2 : string = "red"
@@ -106,7 +106,13 @@ class StatsWheelRenderer {
     }
 
     draw(context : CanvasRenderingContext2D) {
+        context.save()
+        context.translate(w / 2, h / 2)
+        context.beginPath()
+        context.arc(0, 0, Math.min(w, h) / rFactor, 0, 2 * Math.PI)
+        context.stroke()    
         this.stats1.draw(context)
         this.stats2.draw(context)
+        context.restore()
     }
 }
