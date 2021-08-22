@@ -12,6 +12,13 @@ class Stage {
 
     canvas : HTMLCanvasElement = document.createElement('canvas')
     context : CanvasRenderingContext2D 
+    renderer : StatsWheelRenderer 
+
+    constructor(data1 : Record<string, number> , data2 : Record<string, number>) {
+        this.renderer = new StatsWheelRenderer(data1, data2)
+        this.initCanvas()
+        this.render()
+    }
 
     initCanvas() {
         this.canvas.width = w 
@@ -23,6 +30,7 @@ class Stage {
     render() {
         this.context.fillStyle = backColor 
         this.context.fillRect(0, 0, w, h)
+        this.renderer.draw(this.context)
     }
 
 }
